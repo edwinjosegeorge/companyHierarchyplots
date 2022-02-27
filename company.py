@@ -13,9 +13,10 @@ while True:
         print("\t3. Delete Role")
         print("\t4. Add User")
         print("\t5. Display Users")
-        print("\t6. Exit")
+        print("\t6. Display Users and Sub Users")
+        print("\t7. Exit")
         operation = int(input("Operation to be performed : "))
-        if operation == 6:
+        if operation == 7:
             break
 
         elif operation == 1:  # add sub role
@@ -41,6 +42,17 @@ while True:
         elif operation == 5:  # Display Users
             for username in ROOT.userMaps:
                 print(username, "-", ROOT.userMaps[username])
+
+        elif operation == 6:
+            for username in ROOT.userMaps:
+                print(username, "-", end=" ")
+                headRole = ROOT.userMaps[username]
+                for subrole in headRole:
+                    if subrole == headRole:
+                        continue
+                    for users in subrole.userlist:
+                        print(users, end=" ")
+                print()
 
     except Exception as e:
         print(f"Error: {e}")
