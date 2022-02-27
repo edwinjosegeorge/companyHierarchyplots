@@ -107,3 +107,45 @@ class ROLE:
         if username in role.userlist:
             role.userlist.remove(username)
         del self.userMaps[username]
+
+    def commonBoss(self, user1: str, user2: str) -> list:
+        """Return a list of top common boss of two users """
+
+        if user1 not in self.userMaps:
+            raise ValueError(f"Username {user1} not found")
+        if user2 not in self.userMaps:
+            raise ValueError(f"Username {user2} not found")
+
+        # top most common boss of any valid users is the user at root note
+        root = self
+        while root.parent is not None:
+            root = root.parent
+        if len(root.userlist) == 0:
+            return [f'no users at role {root}']
+        return root.userlist
+
+        # alternate long appraoch!
+        # map role-1 to top
+        role1 = self.userMaps[user1]
+        role1_route = list()
+        while role1 is not None:
+            role1_route.add(role1)
+            role1 = role1.parent
+        role1_route.reverse()
+
+        # map role-2 to top
+        role2 = self.userMaps[user2]
+        role2_route = list()
+        while role2 is not None:
+            role2_route.add(role2)
+            role2 = role2.parent
+        role2_route.reverse()
+
+        # find common points
+        common = set(role1_route).intersection(set(role2_route))
+        for topCommon in role1_route:
+            if topCommon in common:
+                if len(topCommon.userlist) == 0:
+                    return [f'no users at role {topCommon}']
+                return topCommon.userlist
+        return ['no common boss']

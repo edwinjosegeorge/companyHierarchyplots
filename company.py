@@ -16,9 +16,11 @@ while True:
         print("\t6. Display Users and Sub Users")
         print("\t7. Delete User")
         print("\t8. Number of users from top")
-        print("\t9. Exit")
+        print("\t9. Height of role hierachy")
+        print("\t10.Common boss of users")
+        print("\t11. Exit")
         operation = int(input("Operation to be performed : "))
-        if operation == 9:
+        if operation == 11:
             break
 
         elif operation == 1:  # add sub role
@@ -79,6 +81,23 @@ while True:
                 print(f"Number of users from top : {height}")
             else:
                 print("Username not found")
+
+        elif operation == 9:  # Height of role heirarchy
+            levelRoles = [ROOT]
+            height = 0
+            while len(levelRoles) != 0:
+                newLevel = list()
+                for role in levelRoles:
+                    newLevel.extend(role.child)
+                height += 1
+                levelRoles = newLevel
+            print(f"height - {height}")
+
+        elif operation == 10:  # Common boss of users
+            user1 = input("Enter user 1 : ")
+            user2 = input("Enter user 2 : ")
+            boss = ROOT.commonBoss(user1, user2)
+            print("Top most common boss :", " ".join(boss))
 
     except Exception as e:
         print(f"Error: {e}")
