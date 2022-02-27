@@ -15,9 +15,10 @@ while True:
         print("\t5. Display Users")
         print("\t6. Display Users and Sub Users")
         print("\t7. Delete User")
-        print("\t8. Exit")
+        print("\t8. Number of users from top")
+        print("\t9. Exit")
         operation = int(input("Operation to be performed : "))
-        if operation == 8:
+        if operation == 9:
             break
 
         elif operation == 1:  # add sub role
@@ -44,7 +45,7 @@ while True:
             for username in ROOT.userMaps:
                 print(username, "-", ROOT.userMaps[username])
 
-        elif operation == 6:
+        elif operation == 6:  # Display Users and sub users
             for username in ROOT.userMaps:
                 print(username, "-", end=" ")
                 headRole = ROOT.userMaps[username]
@@ -55,9 +56,29 @@ while True:
                         print(users, end=" ")
                 print()
 
-        elif operation == 7:
+        elif operation == 7:  # Delete username
             username = input("Enter username to be deleted : ")
             ROOT.deleteUser(username)
+
+        elif operation == 8:  # Height of user from top level
+            username = input("Enter the user name : ")
+            levelRoles = [ROOT]
+            height = 0
+            found = False
+            while len(levelRoles) != 0 and not found:
+                newLevel = list()
+                for role in levelRoles:
+                    if username in role.userlist:
+                        found = True
+                        break
+                    newLevel.extend(role.child)
+                else:
+                    height += 1
+                    levelRoles = newLevel
+            if found:
+                print(f"Number of users from top : {height}")
+            else:
+                print("Username not found")
 
     except Exception as e:
         print(f"Error: {e}")
