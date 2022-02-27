@@ -98,3 +98,12 @@ class ROLE:
 
         newrole.userlist.add(username)
         self.userMaps[username] = newrole
+
+    def deleteUser(self, username: str):
+        """Deletes username from the tree"""
+        if username not in self.userMaps:
+            return
+        role = self.userMaps[username]
+        if username in role.userlist:
+            role.userlist.remove(username)
+        del self.userMaps[username]

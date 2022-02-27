@@ -14,9 +14,10 @@ while True:
         print("\t4. Add User")
         print("\t5. Display Users")
         print("\t6. Display Users and Sub Users")
-        print("\t7. Exit")
+        print("\t7. Delete User")
+        print("\t8. Exit")
         operation = int(input("Operation to be performed : "))
-        if operation == 7:
+        if operation == 8:
             break
 
         elif operation == 1:  # add sub role
@@ -53,6 +54,10 @@ while True:
                     for users in subrole.userlist:
                         print(users, end=" ")
                 print()
+
+        elif operation == 7:
+            username = input("Enter username to be deleted : ")
+            ROOT.deleteUser(username)
 
     except Exception as e:
         print(f"Error: {e}")
