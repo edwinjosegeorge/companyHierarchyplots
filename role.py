@@ -25,6 +25,8 @@ class ROLE:
         self.name = name
         self.parent = None
         self.child = list()
+        self.userlist = set()
+        self.userMaps = dict()  # to be shared by all objects
 
     def __str__(self) -> str:
         return self.name
@@ -51,6 +53,7 @@ class ROLE:
 
         child = ROLE(child_name)
         child.parent = parent
+        child.userMaps = self.userMaps  # shallow copy ensures all node share one table
         parent.child.append(child)
 
     def deleteAndTransfer(self, del_name: str, tran_name: str) -> None:
@@ -77,3 +80,21 @@ class ROLE:
 
         delRole.parent.child.remove(delRole)
         transfer.child.extend(delRole.child)
+
+        # update on usernames, transfer to new role
+        for username in delRole.userlist:
+            self.userMaps[username] = transfer
+            transfer.userlist.add(username)
+
+    def addUser(self, username: str, rolename: str):
+        """adds a new user to a specific role"""
+
+        if username in self.userMaps:
+            raise ValueError(f"user {username} cannot have more than one role")
+
+        newrole = self.findRole(rolename)
+        if newrole is None:
+            raise ValueError(f"No role {rolename} found")
+
+        newrole.userlist.add(username)
+        self.userMaps[username] = newrole
