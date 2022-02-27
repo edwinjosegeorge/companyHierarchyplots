@@ -23,6 +23,7 @@ class ROLE:
     def __init__(self, name: str):
         """Constructor to initialize role name"""
         self.name = name
+        self.parent = None
         self.child = list()
 
     def __str__(self) -> str:
@@ -51,3 +52,28 @@ class ROLE:
         child = ROLE(child_name)
         child.parent = parent
         parent.child.append(child)
+
+    def deleteAndTransfer(self, del_name: str, tran_name: str) -> None:
+        """Delete child and transfter its properties to parent"""
+
+        if del_name == tran_name:
+            raise ValueError("Deleted role and transfered role are identical")
+
+        transfer = self.findRole(tran_name)
+        delRole = self.findRole(del_name)
+        if transfer is None:
+            raise ValueError(f"No role {tran_name} found")
+        if delRole is None:
+            raise ValueError(f"No role {del_name} found")
+        if delRole.parent is None:
+            raise ValueError(f"Cannot delete ROOT role {del_name}")
+
+        # is role to be transferd a sub role of deleted role?
+        # if yes, transfer propeties to parent of deleted role
+        for role in delRole:
+            if role == transfer:
+                transfer = delRole.parent
+                break
+
+        delRole.parent.child.remove(delRole)
+        transfer.child.extend(delRole.child)
