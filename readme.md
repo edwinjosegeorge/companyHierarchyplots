@@ -12,3 +12,16 @@ An individual can hold only one role and report to only one supervisor.
 ```bash
 python3 company.py
 ```
+
+## Available methods/functions
+
+1. Add Sub Role
+2. Display Roles
+3. Delete Role
+4. Add User
+5. Display Users
+6. Display Users and Sub Users
+7. Delete User
+8. Number of users from top
+9. Height of role hierarchy
+10.Common boss of users
